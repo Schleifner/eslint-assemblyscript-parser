@@ -18,11 +18,17 @@ module.exports = {
             }
         }
     ],
-    "parser": "./asParser.js",
+    "parser": "./asParser.cjs",
     "parserOptions": {
         "ecmaVersion": "latest",
         "sourceType": "module"
     },
-    "rules": {
-    }
+    plugins: ['no-var'],
+    rules: {
+        'no-var/var2let': ["error"]
+    },
+    // extends: ['plugin:no-var/recommended'],
+    // globals:{
+    //     custom: "writable"
+    // },
 }
