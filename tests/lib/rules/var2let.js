@@ -61,7 +61,7 @@ const rule = require("../../../lib/rules/var2let"),
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-  "parser": "/home/kkiiim/asParse/eslint-assemblyscript-parser/asParser.cjs",
+  "parser": __dirname + "/../../../asParser.cjs",
   "parserOptions": {
       "ecmaVersion": "latest",
       "sourceType": "module"
