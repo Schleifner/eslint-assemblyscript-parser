@@ -9,7 +9,6 @@ class asParser{
   constructor(code){
     this.sourceCode = code;
     this.tmpArr = new Array();
-    this.newCode = "";
     this.index = 0;
   }
 
@@ -22,8 +21,7 @@ class asParser{
         this.tmpArr.push(curChar);        
       }
     }
-    this.newCode = this.tmpArr.join("");
-    return this.newCode;
+    return this.tmpArr.join("");
   }
 
   getNextChar(){
@@ -36,12 +34,16 @@ class asParser{
     this.tmpArr.push(" ");
     while (this.index < this.sourceCode.length) {
       let tmpC = this.getNextChar();
-      if(tmpC == "\n" || tmpC == " "){
+      if(this.isStopChar(tmpC)){
         this.tmpArr.push(tmpC);
         return;
       }
       this.tmpArr.push(" ");
     }
+  }
+
+  isStopChar(tmpC){
+    return tmpC == "\n" || tmpC == " " || tmpC == "\t";
   }
 }
 

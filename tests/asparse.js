@@ -42,6 +42,6 @@ ruleTester.run("quotes", rule, {
         },
       ],
       output: '@qqq\nlet b = "abc";\n@zxc b = "123";',
-    },
+    }
   ],
 });
