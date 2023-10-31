@@ -1,7 +1,9 @@
 name: asParser
 on:
+  pull_request:
+    branches: test
   push:
-    branches: main
+    branches: test
 
 jobs:
   asParser:
