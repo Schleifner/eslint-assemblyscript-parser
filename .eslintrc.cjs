@@ -5,7 +5,6 @@ module.exports = {
     node: true,
   },
   extends: "eslint:recommended",
-  extends: "prettier",
   overrides: [
     {
       env: {
@@ -23,6 +22,6 @@ module.exports = {
     sourceType: "module",
   },
   rules: {
-    quotes: ["error", "double"],
+    "quotes": ["error", "double"],
   },
 };

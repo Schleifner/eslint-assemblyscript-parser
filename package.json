@@ -10,7 +10,7 @@
   "main": "./src/asParser.cjs",
   "exports": "./src/asParser.cjs",
   "scripts": {
-    "test": "mocha tests --recursive",
+    "test": "mocha tests/asparse-with-autofix.js && node tests/asfileTest.cjs",
     "lint": "eslint --ext .js --max-warnings=0"
   },
   "dependencies": {

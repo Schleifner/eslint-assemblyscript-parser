@@ -38,12 +38,26 @@ class asParser{
         this.tmpArr.push(tmpC);
         return;
       }
+      if(tmpC == "("){
+        this.braceProcessor();
+        return;
+      }
       this.tmpArr.push(" ");
     }
   }
 
   isStopChar(tmpC){
     return tmpC == "\n" || tmpC == " " || tmpC == "\t";
+  }
+
+  braceProcessor(){
+    this.tmpArr.push(" ");
+    while (this.index < this.sourceCode.length) {
+      let tmpC = this.getNextChar();
+      if(tmpC == ")"){
+        return;
+      }
+    }
   }
 }
 

@@ -4,6 +4,11 @@
  */
 "use strict";
 
+/**
+ * in this test file, use ruleTester to assure the autofix functionality is working.
+ * in other words, asParser won't conflict with eslint-RULES
+ */
+
 //------------------------------------------------------------------------------
 // Requirements
 //------------------------------------------------------------------------------
