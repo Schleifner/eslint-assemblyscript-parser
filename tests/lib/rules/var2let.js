@@ -38,10 +38,6 @@
 //   });
 // });
 
-
-
-
-
 /**
  * @fileoverview dont use var
  * @author Kim
@@ -55,21 +51,22 @@
 const rule = require("../../../lib/rules/var2let"),
   RuleTester = require("eslint").RuleTester;
 
-
 //------------------------------------------------------------------------------
 // Tests
 //------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
-  "parser": __dirname + "/../../../asParser.cjs",
-  "parserOptions": {
-      "ecmaVersion": "latest",
-      "sourceType": "module"
+  parser: __dirname + "/../../../asParser.cjs",
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
   },
 });
 ruleTester.run("var2let", rule, {
   valid: [
-    {code: "@qqq\nlet a = 1\n@qqq\nlet b = 1\n@qqq\nlet c = 1\na = b;\na = c;\nb = a;"}
+    {
+      code: "@qqq\nlet a = 1\n@qqq\nlet b = 1\n@qqq\nlet c = 1\na = b;\na = c;\nb = a;",
+    },
   ],
 
   invalid: [
@@ -80,13 +77,13 @@ ruleTester.run("var2let", rule, {
           // message: 'do not use var',
           line: 2,
           column: 1,
-          messageId: 'not-use-var',
+          messageId: "not-use-var",
           endLine: 2,
           endColumn: 10,
           // fix: { range: [5, 8], text: 'let' }
-        }
-    ],
-      output: "@qqq\nlet a = 1\n@qqq\n"
+        },
+      ],
+      output: "@qqq\nlet a = 1\n@qqq\n",
     },
   ],
 });
