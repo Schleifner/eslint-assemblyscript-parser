@@ -1,7 +1,7 @@
 {
-  "name": "eslint-plugin-no-var",
+  "name": "eslint-asparse",
   "version": "0.0.0",
-  "description": "var2let",
+  "description": "Correctly ignoring as codes that start with @",
   "keywords": [
     "eslint",
     "eslint-parser"
@@ -23,6 +23,7 @@
     "@types/node": "^20.4.2",
     "@types/sinon": "^10.0.20",
     "eslint": "^8.19.0",
+    "mocha": "^10.2.0",
     "eslint-doc-generator": "^1.0.0",
     "eslint-plugin-eslint-plugin": "^5.0.0",
     "eslint-plugin-node": "^11.1.0",
