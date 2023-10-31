@@ -4,19 +4,17 @@
   "description": "var2let",
   "keywords": [
     "eslint",
-    "eslintplugin",
-    "eslint-plugin"
+    "eslint-parser"
   ],
   "author": "Kim",
-  "main": "./lib/index.js",
-  "exports": "./lib/index.js",
+  "main": "./src/asParser.cjs",
+  "exports": "./src/asParser.cjs",
   "scripts": {
-    "lint": "npm-run-all \"lint:*\"",
     "lint:eslint-docs": "npm-run-all \"update:eslint-docs -- --check\"",
     "lint:js": "eslint .",
     "test": "mocha tests --recursive",
     "update:eslint-docs": "eslint-doc-generator",
-    "eslint-prettier": "npx prettier . --write && eslint --ext .js,.vue --fix && npx prettier . --check"
+    "lint": "npx prettier . --write && eslint --ext .js,.vue --fix && npx prettier . --check"
   },
   "dependencies": {
     "@typescript-eslint/parser": "^6.9.0",
