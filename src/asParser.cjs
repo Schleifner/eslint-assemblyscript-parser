@@ -1,37 +1,48 @@
 const tsParse = require("@typescript-eslint/parser");
 
 function parse(code, options) {
-  const label = `Parsing file "${options.filePath}"`;
-  //let myParser = new asParser();
-  let newCode = eraseAt(code);
-  console.time(label);
-  const ast = tsParse.parse(newCode, options);
-  console.timeEnd(label);
-  return ast;
+  let myParser = new asParser(code);
+  return tsParse.parse(myParser.getresult(), options);
 }
 
-// arr.push O(1)
-// str.contact/+ O(n)
-// str.join only once merge from arr
-function eraseAt(text) {
-  var arr = new Array();
-  for (let i = 0; i < text.length; i++) {
-    if (text[i] == "@") {
-      while (i < text.length && text[i] != "\n" && text[i] != " ") {
-        arr.push(" ");
-        i++;
-      } // text[i] == \n || i == text.length
-      if (i == text.length) {
-        arr.push(" ");
-        break;
-      } else {
-        arr.push(text[i]);
+class asParser{
+  constructor(code){
+    this.sourceCode = code;
+    this.tmpArr = new Array();
+    this.newCode = "";
+    this.index = 0;
+  }
+
+  getresult(){
+    while(this.index < this.sourceCode.length){
+      let curChar = this.getNextChar();
+      if (curChar == "@") {
+        this.atProcessor();
+      }else{
+        this.tmpArr.push(curChar);        
       }
-    } else {
-      arr.push(text[i]);
+    }
+    this.newCode = this.tmpArr.join("");
+    return this.newCode;
+  }
+
+  getNextChar(){
+    let newChar = this.sourceCode[this.index];
+    this.index++;
+    return newChar;
+  }
+
+  atProcessor(){
+    this.tmpArr.push(" ");
+    while (this.index < this.sourceCode.length) {
+      let tmpC = this.getNextChar();
+      if(tmpC == "\n" || tmpC == " "){
+        this.tmpArr.push(tmpC);
+        return;
+      }
+      this.tmpArr.push(" ");
     }
   }
-  let newCode = arr.join("");
-  return newCode;
 }
+
 module.exports = { parse };
