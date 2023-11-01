@@ -2,6 +2,7 @@ const tsParse = require("@typescript-eslint/parser");
 
 function parse(code, options) {
   let myParser = new asParser(code);
+  console.log(myParser.getresult());
   return tsParse.parse(myParser.getresult(), options);
 }
 
@@ -54,6 +55,7 @@ class asParser{
     this.tmpArr.push(" ");
     while (this.index < this.sourceCode.length) {
       let tmpC = this.getNextChar();
+      this.tmpArr.push(" ");
       if(tmpC == ")"){
         return;
       }
