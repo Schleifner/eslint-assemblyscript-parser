@@ -6,7 +6,7 @@
 const fs = require('fs');
 const {parse} = require("../src/asParser.cjs")
 
-fs.readFile(__dirname + '/../testfile/exports-lazy.ts', 'utf8', function (error, data) {
+fs.readFile(__dirname + '/testfile/exports-lazy.ts', 'utf8', function (error, data) {
   if (error) {
     console.error("Failed to load testfile:", error);
     reject(error);
@@ -16,7 +16,7 @@ fs.readFile(__dirname + '/../testfile/exports-lazy.ts', 'utf8', function (error,
   console.log("pass testfile/exports-lazy")
 })
 
-fs.readFile(__dirname + '/../testfile/external.ts', 'utf8', function (error, data) {
+fs.readFile(__dirname + '/testfile/external.ts', 'utf8', function (error, data) {
   if (error) {
     console.error("Failed to load testfile:", error);
     reject(error);
@@ -26,7 +26,7 @@ fs.readFile(__dirname + '/../testfile/external.ts', 'utf8', function (error, dat
   console.log("pass testfile/external")
 })
 
-fs.readFile(__dirname + '/../testfile/function-inline-regressions.ts', 'utf8', function (error, data) {
+fs.readFile(__dirname + '/testfile/function-inline-regressions.ts', 'utf8', function (error, data) {
   if (error) {
     console.error("Failed to load testfile:", error);
     reject(error);
@@ -38,7 +38,7 @@ fs.readFile(__dirname + '/../testfile/function-inline-regressions.ts', 'utf8', f
   console.log("pass testfile/function-inline-regressions")
 })
 
-fs.readFile(__dirname + '/../testfile/operator-overloading.ts', 'utf8', function (error, data) {
+fs.readFile(__dirname + '/testfile/operator-overloading.ts', 'utf8', function (error, data) {
   if (error) {
     console.error("Failed to load testfile:", error);
     reject(error);
@@ -50,7 +50,7 @@ fs.readFile(__dirname + '/../testfile/operator-overloading.ts', 'utf8', function
   console.log("pass testfile/operator-overloading")
 })
 
-fs.readFile(__dirname + '/../testfile/resolve-binary.ts', 'utf8', function (error, data) {
+fs.readFile(__dirname + '/testfile/resolve-binary.ts', 'utf8', function (error, data) {
   if (error) {
     console.error("Failed to load testfile:", error);
     reject(error);
@@ -62,7 +62,7 @@ fs.readFile(__dirname + '/../testfile/resolve-binary.ts', 'utf8', function (erro
   console.log("pass testfile/resolve-binary")
 })
 
-fs.readFile(__dirname + '/../testfile/unsafe.ts', 'utf8', function (error, data) {
+fs.readFile(__dirname + '/testfile/unsafe.ts', 'utf8', function (error, data) {
   if (error) {
     console.error("Failed to load testfile:", error);
     reject(error);
