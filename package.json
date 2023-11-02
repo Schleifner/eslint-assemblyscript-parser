@@ -1,6 +1,6 @@
 {
   "name": "@schleifner/eslint-assemblyscript-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Correctly ignoring as codes that start with @",
   "keywords": [
     "eslint",
