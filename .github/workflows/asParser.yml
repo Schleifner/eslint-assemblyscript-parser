@@ -2,9 +2,6 @@ name: asParser
 on:
   pull_request:
     branches: main
-  push:
-    tags:
-      - v*
 
 jobs:
   asParser:
@@ -17,5 +14,4 @@ jobs:
         run: npm run lint
       - name: run mocha-test
         run: npm run test
-      - name: publish
-        run: npm publish
+        
