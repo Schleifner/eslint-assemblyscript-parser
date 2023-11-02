@@ -4,70 +4,40 @@
  * indicating that the asParser handled the problem correctly
  */
 const fs = require('fs');
-const {parse} = require("../src/asParser.cjs")
+const chai = require('chai');
+const {parse} = require("../src/asParser.cjs");
+const { test, suite } = require("mocha");
 
-fs.readFile(__dirname + '/testfile/exports-lazy.ts', 'utf8', function (error, data) {
-  if (error) {
-    console.error("Failed to load testfile:", error);
-    reject(error);
-    return;
-  }
-  parse(data);
-  console.log("pass testfile/exports-lazy")
-})
 
-fs.readFile(__dirname + '/testfile/external.ts', 'utf8', function (error, data) {
-  if (error) {
-    console.error("Failed to load testfile:", error);
-    reject(error);
-    return;
-  }
-  parse(data);
-  console.log("pass testfile/external")
-})
+function chaiTest(file){
+  chai.expect(function () {
+    testFile(file);
+  }).to.not.throw();
+}
 
-fs.readFile(__dirname + '/testfile/function-inline-regressions.ts', 'utf8', function (error, data) {
-  if (error) {
-    console.error("Failed to load testfile:", error);
-    reject(error);
-    return;
-  }
-  parse(data, {
-    range: true,
+function testFile(file){
+  fs.readFile(__dirname + file, 'utf8', function (error, data) {
+    if (error) {
+      console.error("Failed to load testfile:", error);
+      reject(error);
+      return;
+    }
+    parse(data, {
+      range: true,
+    });
+  })
+}
+
+//------------------------------------------------------------------------------
+// Tests
+//------------------------------------------------------------------------------
+suite("asparse", () => {
+  test("asparse", async () => {
+    chaiTest('/testfile/exports-lazy.ts');
+    chaiTest('/testfile/external.ts');
+    chaiTest('/testfile/function-inline-regressions.ts');
+    chaiTest('/testfile/operator-overloading.ts');
+    chaiTest('/testfile/resolve-binary.ts');
+    chaiTest('/testfile/unsafe.ts');
   });
-  console.log("pass testfile/function-inline-regressions")
-})
-
-fs.readFile(__dirname + '/testfile/operator-overloading.ts', 'utf8', function (error, data) {
-  if (error) {
-    console.error("Failed to load testfile:", error);
-    reject(error);
-    return;
-  }
-  parse(data, {
-    range: true,
-  });
-  console.log("pass testfile/operator-overloading")
-})
-
-fs.readFile(__dirname + '/testfile/resolve-binary.ts', 'utf8', function (error, data) {
-  if (error) {
-    console.error("Failed to load testfile:", error);
-    reject(error);
-    return;
-  }
-  parse(data, {
-    range: true,
-  });
-  console.log("pass testfile/resolve-binary")
-})
-
-fs.readFile(__dirname + '/testfile/unsafe.ts', 'utf8', function (error, data) {
-  if (error) {
-    console.error("Failed to load testfile:", error);
-    reject(error);
-    return;
-  }
-  parse(data);
-  console.log("pass testfile/unsafe")
-})
+});
