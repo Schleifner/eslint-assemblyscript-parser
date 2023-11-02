@@ -1,0 +1,11 @@
+.github
+node_modules
+tests
+testfile
+.eslintrc.cjs
+.gitignore
+.prettierignore
+.prettierrc.yaml
+.prettierrc
+package-lock.json
+README.md
