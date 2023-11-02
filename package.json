@@ -1,6 +1,6 @@
 {
-  "name": "eslint-asparse",
-  "version": "0.0.0",
+  "name": "ignore-asdecorator-foreslint",
+  "version": "1.0.0",
   "description": "Correctly ignoring as codes that start with @",
   "keywords": [
     "eslint",
@@ -8,7 +8,6 @@
   ],
   "author": "Kim",
   "main": "./src/asParser.cjs",
-  "exports": "./src/asParser.cjs",
   "scripts": {
     "test": "node tests/asfileTest.cjs",
     "lint": "eslint --ext .js --max-warnings=0"
