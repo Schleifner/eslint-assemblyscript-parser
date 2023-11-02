@@ -1,5 +1,5 @@
 const tsParse = require("@typescript-eslint/parser");
-const Utils = require("../node_modules/@typescript-eslint/typescript-estree/dist/node-utils.js");
+const Utils = require("../../@typescript-eslint/typescript-estree/dist/node-utils.js");
 
 function parse(code, options) {
   Utils.nodeCanBeDecorated = ()=>{return true};
