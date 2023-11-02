@@ -10,25 +10,27 @@
   "main": "./src/asParser.cjs",
   "exports": "./src/asParser.cjs",
   "scripts": {
-    "test": "mocha tests/asparse-with-autofix.js && node tests/asfileTest.cjs",
+    "test": "node tests/asfileTest.cjs",
     "lint": "eslint --ext .js --max-warnings=0"
   },
   "dependencies": {
+    "@types/estraverse": "^5.1.5",
     "@typescript-eslint/parser": "^6.9.0",
-    "requireindex": "^1.2.0"
+    "requireindex": "^1.2.0",
+    "typescript-eslint": "^0.0.1-alpha.0"
   },
   "devDependencies": {
     "@types/chai": "^4.3.9",
     "@types/mocha": "^10.0.3",
     "@types/node": "^20.4.2",
     "@types/sinon": "^10.0.20",
+    "assemblyscript": "^0.27.14",
     "eslint": "^8.19.0",
-    "mocha": "^10.2.0",
     "eslint-doc-generator": "^1.0.0",
     "eslint-plugin-eslint-plugin": "^5.0.0",
     "eslint-plugin-node": "^11.1.0",
-    "assemblyscript": "^0.27.14",
     "eslint-plugin-react": "^7.33.2",
+    "mocha": "^10.2.0",
     "prettier": "3.0.3",
     "typescript": "^5.2.2"
   },
