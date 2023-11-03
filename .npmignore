@@ -8,3 +8,4 @@ testfile
 .prettierrc.yaml
 .prettierrc
 package-lock.json
+src

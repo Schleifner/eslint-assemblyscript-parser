@@ -15,6 +15,7 @@ jobs:
                     node-version: 16.x
                     cache: "npm"
             - run: npm ci
+            - run: npm run build
             - uses: JS-DevTools/npm-publish@v1
               with:
                     token: ${{ secrets.PUBLISHTOKEN }}
