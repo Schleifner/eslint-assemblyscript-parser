@@ -12,6 +12,8 @@ jobs:
         run: npm install
       - name: run lint
         run: npm run lint
+      - name: esbuild
+        run: npm run build
       - name: run mocha-test
         run: npm run test
         

@@ -10,7 +10,8 @@
   "main": "./src/asParser.cjs",
   "scripts": {
     "test": "mocha tests/asfileTest.cjs",
-    "lint": "eslint --ext .js --max-warnings=0"
+    "lint": "prettier ./src/* -c && eslint ./src/* --max-warnings=0",
+    "build": "esbuild src/asParser.cjs --bundle --platform=node --outdir=dist"
   },
   "publishConfig": {
     "access": "public"
@@ -19,6 +20,9 @@
     "@types/estraverse": "^5.1.5",
     "@typescript-eslint/parser": "^6.9.0",
     "chai": "^4.3.10",
+    "esbuild": "^0.19.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "requireindex": "^1.2.0",
     "typescript-eslint": "^0.0.1-alpha.0"
   },
