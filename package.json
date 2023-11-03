@@ -7,7 +7,7 @@
     "eslint-parser"
   ],
   "author": "Kim",
-  "main": "./src/asParser.cjs",
+  "main": "./dist/asParser.js",
   "scripts": {
     "test": "mocha tests/asfileTest.cjs",
     "lint": "prettier ./src/* -c && eslint ./src/* --max-warnings=0",
