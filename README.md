@@ -1,48 +1,9 @@
-# eslint-plugin-no-var
-
-var2let
-
-## Installation
-
-You'll first need to install [ESLint](https://eslint.org/):
-
-```sh
-npm i eslint --save-dev
+# eslint-assemblyscript-parser  
+assemblyscript parser for eslint based on eslint-typescript-parser  
+Package usage is the same as typescript  
+this asParser correctly ignore as's unique tokens  
+  
+# Installation  
+```bash
+npm install eslint-assemblyscript-parser
 ```
-
-Next, install `eslint-plugin-no-var`:
-
-```sh
-npm install eslint-plugin-no-var --save-dev
-```
-
-## Usage
-
-Add `no-var` to the plugins section of your `.eslintrc` configuration file. You can omit the `eslint-plugin-` prefix:
-
-```json
-{
-    "plugins": [
-        "no-var"
-    ]
-}
-```
-
-
-Then configure the rules you want to use under the rules section.
-
-```json
-{
-    "rules": {
-        "no-var/rule-name": 2
-    }
-}
-```
-
-## Rules
-
-<!-- begin auto-generated rules list -->
-TODO: Run eslint-doc-generator to generate the rules list.
-<!-- end auto-generated rules list -->
-
-

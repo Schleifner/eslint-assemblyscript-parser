@@ -1,1 +1,6 @@
 node_modules
+testfile.js
+.backup-eslintrc.js
+./src/old-asParser.cjs
+./tests/asparse-with-autofix.js
+./astTest.js
