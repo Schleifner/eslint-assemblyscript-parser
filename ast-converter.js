@@ -19,16 +19,18 @@ function astConverter(ast, parseSettings, shouldPreserveNodeMaps) {
             function visit(node) {
                 node = ts.visitEachChild(node, visit, context);
                 function replaceDecorators(node){
-                    return ts.isParameter(node) ? context.factory.updateParameterDeclaration(node, selectDecorator(node.modifiers), node.dotDotDotToken, node.name, node.questionToken, node.type, node.initializer) :
-                    ts.isPropertyDeclaration(node) ? context.factory.updatePropertyDeclaration(node, selectDecorator(node.modifiers), node.name, node.questionToken, node.exclamationToken, node.type, node.initializer) :
-                    ts.isMethodDeclaration(node) ? context.factory.updateMethodDeclaration(node, selectDecorator(node.modifiers), node.asteriskToken, node.name, node.questionToken, node.typeParameters, node.parameters, node.type, node.body) :
-                    ts.isGetAccessorDeclaration(node) ? context.factory.updateGetAccessorDeclaration(node, selectDecorator(node.modifiers), node.name, node.parameters, node.type, node.body) :
-                    ts.isSetAccessorDeclaration(node) ? context.factory.updateSetAccessorDeclaration(node, selectDecorator(node.modifiers), node.name, node.parameters, node.body) :
-                    ts.isClassExpression(node) ? context.factory.updateClassExpression(node, selectDecorator(node.modifiers), node.name, node.typeParameters, node.heritageClauses, node.members) :
-                    ts.isClassDeclaration(node) ? context.factory.updateClassDeclaration(node, selectDecorator(node.modifiers), node.name, node.typeParameters, node.heritageClauses, node.members):
-                    ts.isFunctionDeclaration(node) ? context.factory.updateFunctionDeclaration(node, selectDecorator(node.modifiers), node.asteriskToken, node.name, node.typeParameters, node.parameters, node.type, node.body):
-                    ts.isVariableDeclaration(node) ? context.factory.updateVariableDeclaration(node, node.name, node.exclamationToken | undefined, node.type | undefined, node.initializer | undefined):
-                    ts.isVariableStatement(node) ? context.factory.updateVariableStatement(node, selectDecorator(node.modifiers), node.declarationList):
+                    // return ts.isParameter(node) ? context.factory.updateParameterDeclaration(node, selectDecorator(node.modifiers), node.dotDotDotToken, node.name, node.questionToken, node.type, node.initializer) :
+                    // ts.isPropertyDeclaration(node) ? context.factory.updatePropertyDeclaration(node, selectDecorator(node.modifiers), node.name, node.questionToken ?? node.exclamationToken, node.type, node.initializer) :
+                    // ts.isMethodDeclaration(node) ? context.factory.updateMethodDeclaration(node, selectDecorator(node.modifiers), node.asteriskToken, node.name, node.questionToken, node.typeParameters, node.parameters, node.type, node.body) :
+                    // ts.isGetAccessorDeclaration(node) ? context.factory.updateGetAccessorDeclaration(node, selectDecorator(node.modifiers), node.name, node.parameters, node.type, node.body) :
+                    // ts.isSetAccessorDeclaration(node) ? context.factory.updateSetAccessorDeclaration(node, selectDecorator(node.modifiers), node.name, node.parameters, node.body) :
+                    // ts.isClassExpression(node) ? context.factory.updateClassExpression(node, selectDecorator(node.modifiers), node.name, node.typeParameters, node.heritageClauses, node.members) :
+                    // ts.isClassDeclaration(node) ? context.factory.updateClassDeclaration(node, selectDecorator(node.modifiers), node.name, node.typeParameters, node.heritageClauses, node.members):
+                    return ts.isFunctionDeclaration(node) ? context.factory.updateFunctionDeclaration(node, selectDecorator(node.modifiers), node.asteriskToken | undefined, node.name | undefined, node.typeParameters| undefined, node.parameters, node.type | undefined, node.body | undefined):
+                    // ts.isVariableDeclaration(node) ? context.factory.updateVariableDeclaration(node, node.name, node.exclamationToken | undefined, node.type | undefined, node.initializer | undefined):
+                    // ts.isVariableStatement(node) ? context.factory.updateVariableStatement(node, selectDecorator(node.modifiers), node.declarationList):
+                    // ts.isConstructorDeclaration(node) ? context.factory.updateConstructorDeclaration(node, selectDecorator(node.modifiers), node.parameters, node.body | undefined):
+                    // ts.isConstructorTypeNode(node) ? context.factory.updateConstructorTypeNode(node, selectDecorator(node.modifiers), node.typeParameters | undefined, node.parameters, node.type):
                     node;
                 }
                 function selectDecorator(modifierArray){
@@ -40,6 +42,17 @@ function astConverter(ast, parseSettings, shouldPreserveNodeMaps) {
                     }
                     return modifierArray;
                 }
+                // function selectDecorator(node){
+                //     if(node.modifiers == undefined) return undefined;
+                //     const len = node.modifiers.length;
+                //     var myarr = new Array();
+                //     for(let i = 0; i < len; i++){
+                //         if(node.modifiers[i].kind != ts.SyntaxKind.Decorator){
+                //             myarr.push(node.modifiers[i]);
+                //         }
+                //     }
+                //     return ts.factory.createModifiersFromModifierFlags(myarr);
+                // }
                 return replaceDecorators(node);
             }
             return ts.visitNode(rootNode, visit);
