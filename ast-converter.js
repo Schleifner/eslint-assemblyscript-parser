@@ -7,63 +7,46 @@ const node_utils_1 = require("./node-utils");
 const simple_traverse_1 = require("./simple-traverse");
 
 const ts = require("typescript");
-const nodeFactory = require("../../../typescript/lib/tsserverlibrary.js");
 function astConverter(ast, parseSettings, shouldPreserveNodeMaps) {
-    /**
-     * The TypeScript compiler produced fundamental parse errors when parsing the
-     * source.
-     */
+
     const { parseDiagnostics } = ast;
     if (parseDiagnostics.length) {
         throw (0, convert_1.convertError)(parseDiagnostics[0]);
     }
-    // const transformerFactory = (context) => {return (rootNode) => {
-    //     function visit(sourceFile) {
 
-    //         return ts.visitEachChild(sourceFile, (node) => converNode(node), context);
-    //     }
-
-    //     function converNode(node) {
-
-    //         return ts.visitEachChild(node, visitChilds, context);
-
-    //         function visitChilds(child){
-    //             if (child.kind == ts.SyntaxKind.Decorator) return ;
-    //             return ts.visitEachChild(child, visitChilds, context);
-    //         }
-    //     }
-
-    //     return ts.visitNode(rootNode, visit);
-    //     };
-    // }
     const transformerFactory = (context) => {
         return (rootNode) => {
             function visit(node) {
                 node = ts.visitEachChild(node, visit, context);
-    
-                if (ts.isDecorator(node)) {
-                    // to do 
-                    //node.text = "";
-                    //context.factory.  
-                    context.factory
-                    //ts.NodeFactory.replaceDecoratorsAndModifiers();
-                    return node;
-                } else {
-                    return node;
+                function replaceDecorators(node){
+                    return ts.isParameter(node) ? context.factory.updateParameterDeclaration(node, selectDecorator(node.modifiers), node.dotDotDotToken, node.name, node.questionToken, node.type, node.initializer) :
+                    ts.isPropertyDeclaration(node) ? context.factory.updatePropertyDeclaration(node, selectDecorator(node.modifiers), node.name, node.questionToken, node.exclamationToken, node.type, node.initializer) :
+                    ts.isMethodDeclaration(node) ? context.factory.updateMethodDeclaration(node, selectDecorator(node.modifiers), node.asteriskToken, node.name, node.questionToken, node.typeParameters, node.parameters, node.type, node.body) :
+                    ts.isGetAccessorDeclaration(node) ? context.factory.updateGetAccessorDeclaration(node, selectDecorator(node.modifiers), node.name, node.parameters, node.type, node.body) :
+                    ts.isSetAccessorDeclaration(node) ? context.factory.updateSetAccessorDeclaration(node, selectDecorator(node.modifiers), node.name, node.parameters, node.body) :
+                    ts.isClassExpression(node) ? context.factory.updateClassExpression(node, selectDecorator(node.modifiers), node.name, node.typeParameters, node.heritageClauses, node.members) :
+                    ts.isClassDeclaration(node) ? context.factory.updateClassDeclaration(node, selectDecorator(node.modifiers), node.name, node.typeParameters, node.heritageClauses, node.members):
+                    ts.isFunctionDeclaration(node) ? context.factory.updateFunctionDeclaration(node, selectDecorator(node.modifiers), node.asteriskToken, node.name, node.typeParameters, node.parameters, node.type, node.body):
+                    ts.isVariableDeclaration(node) ? context.factory.updateVariableDeclaration(node, node.name, node.exclamationToken | undefined, node.type | undefined, node.initializer | undefined):
+                    ts.isVariableStatement(node) ? context.factory.updateVariableStatement(node, selectDecorator(node.modifiers), node.declarationList):
+                    node;
                 }
+                function selectDecorator(modifierArray){
+                    if(modifierArray == undefined) return undefined;
+                    for(let i = 0; i < modifierArray.length; i++){
+                        if(modifierArray[i].kind == ts.SyntaxKind.Decorator){
+                            modifierArray.splice(i, 1);
+                        }
+                    }
+                    return modifierArray;
+                }
+                return replaceDecorators(node);
             }
             return ts.visitNode(rootNode, visit);
         };
     };
-    ts.isFunctionDeclaration
-      ast = ts.transform(
-        ast, [transformerFactory]
-      ).transformed[0];
+    ast = (ts.transform(ast, [transformerFactory])).transformed[0];
     
-    console.log(ast);
-      /**
-     * Recursively convert the TypeScript AST into an ESTree-compatible AST
-     */
     const instance = new convert_1.Converter(ast, {
         allowInvalidAST: parseSettings.allowInvalidAST,
         errorOnUnknownASTType: parseSettings.errorOnUnknownASTType,
@@ -71,35 +54,24 @@ function astConverter(ast, parseSettings, shouldPreserveNodeMaps) {
         suppressDeprecatedPropertyWarnings: parseSettings.suppressDeprecatedPropertyWarnings,
     });
     const estree = instance.convertProgram();
-    console.log(estree);
-    /**
-     * Optionally remove range and loc if specified
-     */
+
     if (!parseSettings.range || !parseSettings.loc) {
         (0, simple_traverse_1.simpleTraverse)(estree, {
             enter: node => {
                 if (!parseSettings.range) {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment -- TS 4.0 made this an error because the types aren't optional
-                    // @ts-expect-error
                     delete node.range;
                 }
                 if (!parseSettings.loc) {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment -- TS 4.0 made this an error because the types aren't optional
-                    // @ts-expect-error
                     delete node.loc;
                 }
             },
         });
     }
-    /**
-     * Optionally convert and include all tokens in the AST
-     */
+
     if (parseSettings.tokens) {
         estree.tokens = (0, node_utils_1.convertTokens)(ast);
     }
-    /**
-     * Optionally convert and include all comments in the AST
-     */
+
     if (parseSettings.comment) {
         estree.comments = (0, convert_comments_1.convertComments)(ast, parseSettings.codeFullText);
     }
