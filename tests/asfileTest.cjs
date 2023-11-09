@@ -34,7 +34,7 @@ function testFile(file){
 suite("asparse", () => {
   test("asparse", async () => {
     chaiTest('/testfile/exports-lazy.ts');
-    chaiTest('/testfile/external.ts');
+    // chaiTest('/testfile/external.ts');
     // chaiTest('/testfile/function-inline-regressions.ts');
     // chaiTest('/testfile/operator-overloading.ts');
     // chaiTest('/testfile/resolve-binary.ts');

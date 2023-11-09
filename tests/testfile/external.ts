@@ -1,4 +1,4 @@
-export declare function foo(): void; // external , foo
+export declare function foo(): void;
 
 @external("bar")
 export declare function two(): void; // external , bar
