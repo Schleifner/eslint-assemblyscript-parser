@@ -6,3 +6,4 @@ testfile.js
 ./astTest.js
 backup_src
 message.txt
+ast-converter.js

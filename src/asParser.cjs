@@ -5,24 +5,54 @@ const fs = require("fs");
 const tsParse = require(__dirname + "/../node_modules/@typescript-eslint/parser/dist/parser.js");
 const ts = require("typescript");
 
-function replaceText(code, file){
-    var rawTextArr = code.split("");
+function replaceTextWithSplit(code, DecoratorPositionList){
+    var transformedCode = code.split("");
+    for(let listIndex = 0; listIndex < DecoratorPositionList.length; listIndex++){
+        for(let curPos = DecoratorPositionList[listIndex][0]; curPos <= DecoratorPositionList[listIndex][1]; curPos++){        
+            if(code[curPos] == "\n"){
+                transformedCode[curPos] = "\n";
+            }else{
+                transformedCode[curPos] = " ";
+            }
+        }
+    }
+    return transformedCode.join("");
+}
+
+function replaceTextWithArrPush(code, DecoratorPositionList){
+    var transformedCode = new Array();
+    if(DecoratorPositionList.length == 0) return code;
+    var transformedPos = 0;
+    for(let listIndex = 0; listIndex < DecoratorPositionList.length; listIndex++){
+        var left = DecoratorPositionList[listIndex][0];
+        var right = DecoratorPositionList[listIndex][1];
+        transformedCode.push(code.slice(transformedPos, left));
+        transformedCode.push(getSpaces(code, left, right));
+        transformedPos = right + 1;
+    }
+    if(transformedPos <= code.length){
+        transformedCode.push(code.slice(transformedPos, code.length));
+    }
+    return transformedCode.join("");
+}
+
+function getSpaces(code, left, right){
+    var spaces = new Array();
+    while(left <= right){
+        if(code[left++] == "\n") spaces.push("\n");
+        else spaces.push(" ");
+    }
+    return spaces.join("");
+}
+
+function getDecoratorPosition(code, file){
+    var DecoratorPositionList = new Array();
     const ast = ts.createSourceFile(
-        __dirname + "/../tests/" + file,
+        __dirname + "/../tests/testfile/" + file,
         code,
         ts.ScriptTarget.ES2015,
         /*setParentNodes */ true
     );
-
-    function replaceDecoratorsWithSpace(pos, end){
-        for(let i = pos; i <= end; i++){
-            if(code[i] == "\n"){
-                rawTextArr[i] = "\n";
-            }else{
-                rawTextArr[i] = " ";
-            }
-        }
-    }
 
     const transformerFactory = (context) => {
         return (rootNode) => {
@@ -61,11 +91,12 @@ function replaceText(code, file){
                     if(modifierArray == undefined) return undefined;
                     for(let i = 0; i < modifierArray.length; i++){
                         if(modifierArray[i].kind == ts.SyntaxKind.Decorator){
-                            replaceDecoratorsWithSpace(modifierArray[i].pos, modifierArray[i].end);
+                            // replaceDecoratorsWithSpace(modifierArray[i].pos, modifierArray[i].end);
+                            DecoratorPositionList.push([modifierArray[i].pos, modifierArray[i].end]);
                             // console.log("pos = " + modifierArray[i].pos + " end = " + modifierArray[i].end);
                         }
                     }
-                    return modifierArray;
+                    // return modifierArray;
                 }
                 return replaceDecorators(node);
             }
@@ -80,7 +111,7 @@ function replaceText(code, file){
      * only rawTextArr-Changing is necessary
      */
 
-    var new_str = rawTextArr.join("");
+    // var new_str = rawTextArr.join("");
     /**
      * show newText if you need
      */
@@ -88,19 +119,29 @@ function replaceText(code, file){
     //     if (err) throw err;
     //     console.log('The file has been saved!');
     // });
-    return new_str;
+    return DecoratorPositionList;
 }
-function timeTest(code, file){
-    console.time("replaceText");
-    for(let i = 0; i < 1000; i++){
-       replaceText(code, file); 
+
+
+function timeTest(code, DecoratorPositionList){
+    console.time("replaceTextWithSplit");
+    for(let i = 0; i < 100000; i++){
+       replaceTextWithSplit(code, DecoratorPositionList); 
     }
-    console.timeEnd("replaceText");
+    console.timeEnd("replaceTextWithSplit");
+
+    console.time("replaceTextWithArrPush");
+    for(let i = 0; i < 100000; i++){
+       replaceTextWithArrPush(code, DecoratorPositionList); 
+    }
+    console.timeEnd("replaceTextWithArrPush");
+    console.log("");
 }
+
 function parse(code, file, options){
-    //timeTest(code, file);
-    var rawTextArr = replaceText(code, file);
-    return tsParse.parse(rawTextArr, options);
+    const DecoratorPos = getDecoratorPosition(code, file);
+    timeTest(code, DecoratorPos);
+    return tsParse.parse(replaceTextWithSplit(code, DecoratorPos), options);
 }
 
 // Overriding parse in tsParse.

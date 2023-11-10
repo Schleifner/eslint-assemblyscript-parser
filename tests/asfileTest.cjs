@@ -27,6 +27,7 @@ function testFile(file){
       reject(error);
       return;
     }
+    console.log(file);
     parse(data, file, {
       range: true,
     });
