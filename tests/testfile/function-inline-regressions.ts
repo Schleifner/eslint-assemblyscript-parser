@@ -4,7 +4,7 @@
   v2: u32;
 }
 
-// @inline
+@inline
 function loadZ() : u32 {
   return load<u32>(16);
 }

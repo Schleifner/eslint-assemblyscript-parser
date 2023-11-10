@@ -8,6 +8,11 @@ const chai = require('chai');
 const {parse} = require("../src/asParser.cjs");
 const { test, suite } = require("mocha");
 
+function testAllFiles(files){
+  for(let i = 0; i < files.length; i++){
+    chaiTest(files[i]);
+  }
+}
 
 function chaiTest(file){
   chai.expect(function () {
@@ -16,13 +21,13 @@ function chaiTest(file){
 }
 
 function testFile(file){
-  fs.readFile(__dirname + file, 'utf8', function (error, data) {
+  fs.readFile(__dirname + "/testfile/" + file, 'utf8', function (error, data) {
     if (error) {
       console.error("Failed to load testfile:", error);
       reject(error);
       return;
     }
-    parse(data, {
+    parse(data, file, {
       range: true,
     });
   })
@@ -33,11 +38,13 @@ function testFile(file){
 //------------------------------------------------------------------------------
 suite("asparse", () => {
   test("asparse", async () => {
-    chaiTest('/testfile/exports-lazy.ts');
-    // chaiTest('/testfile/external.ts');
-    // chaiTest('/testfile/function-inline-regressions.ts');
-    // chaiTest('/testfile/operator-overloading.ts');
-    // chaiTest('/testfile/resolve-binary.ts');
-    // chaiTest('/testfile/unsafe.ts');
+    const folderPath = __dirname + "/testfile";
+    fs.readdir(folderPath, (err, files) => {
+      if (err) {
+        console.error(err);
+        return;
+      }
+      testAllFiles(files);
+    });
   });
 });

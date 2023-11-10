@@ -5,3 +5,4 @@ testfile.js
 ./tests/asparse-with-autofix.js
 ./astTest.js
 backup_src
+message.txt
