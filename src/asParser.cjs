@@ -72,115 +72,117 @@ function getDecoratorPosition(code, file) {
       function visit(node) {
         node = ts.visitEachChild(node, visit, context);
         function replaceDecorators(node) {
-          if (ts.isParameter(node)) {
-            return context.factory.updateParameterDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.dotDotDotToken,
-              node.name,
-              node.questionToken,
-              node.type,
-              node.initializer,
-            );
-          } else if (ts.isPropertyDeclaration(node)) {
-            return context.factory.updatePropertyDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.name,
-              node.questionToken ?? node.exclamationToken,
-              node.type,
-              node.initializer,
-            );
-          } else if (ts.isMethodDeclaration(node)) {
-            return context.factory.updateMethodDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.asteriskToken,
-              node.name,
-              node.questionToken,
-              node.typeParameters,
-              node.parameters,
-              node.type,
-              node.body,
-            );
-          } else if (ts.isGetAccessorDeclaration(node)) {
-            return context.factory.updateGetAccessorDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.name,
-              node.parameters,
-              node.type,
-              node.body,
-            );
-          } else if (ts.isSetAccessorDeclaration(node)) {
-            return context.factory.updateSetAccessorDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.name,
-              node.parameters,
-              node.body,
-            );
-          } else if (ts.isClassExpression(node)) {
-            return context.factory.updateClassExpression(
-              node,
-              selectDecorator(node.modifiers),
-              node.name,
-              node.typeParameters,
-              node.heritageClauses,
-              node.members,
-            );
-          } else if (ts.isClassDeclaration(node)) {
-            return context.factory.updateClassDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.name,
-              node.typeParameters,
-              node.heritageClauses,
-              node.members,
-            );
-          } else if (ts.isFunctionDeclaration(node)) {
-            return context.factory.updateFunctionDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.asteriskToken | undefined,
-              node.name | undefined,
-              node.typeParameters | undefined,
-              node.parameters,
-              node.type | undefined,
-              node.body | undefined,
-            );
-          } else if (ts.isVariableDeclaration(node)) {
-            return context.factory.updateVariableDeclaration(
-              node,
-              node.name,
-              node.exclamationToken | undefined,
-              node.type | undefined,
-              node.initializer | undefined,
-            );
-          } else if (ts.isVariableStatement(node)) {
-            return context.factory.updateVariableStatement(
-              node,
-              selectDecorator(node.modifiers),
-              node.declarationList,
-            );
-          } else if (ts.isConstructorDeclaration(node)) {
-            return context.factory.updateConstructorDeclaration(
-              node,
-              selectDecorator(node.modifiers),
-              node.parameters,
-              node.body | undefined,
-            );
-          } else if (ts.isConstructorTypeNode(node)) {
-            return context.factory.updateConstructorTypeNode(
-              node,
-              selectDecorator(node.modifiers),
-              node.typeParameters | undefined,
-              node.parameters,
-              node.type,
-            );
-          } else {
-            return node;
-          }
+          selectDecorator(node.modifiers);
+          return node;
+          // if (ts.isParameter(node)) {
+          //   return context.factory.updateParameterDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.dotDotDotToken,
+          //     node.name,
+          //     node.questionToken,
+          //     node.type,
+          //     node.initializer,
+          //   );
+          // } else if (ts.isPropertyDeclaration(node)) {
+          //   return context.factory.updatePropertyDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.name,
+          //     node.questionToken ?? node.exclamationToken,
+          //     node.type,
+          //     node.initializer,
+          //   );
+          // } else if (ts.isMethodDeclaration(node)) {
+          //   return context.factory.updateMethodDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.asteriskToken,
+          //     node.name,
+          //     node.questionToken,
+          //     node.typeParameters,
+          //     node.parameters,
+          //     node.type,
+          //     node.body,
+          //   );
+          // } else if (ts.isGetAccessorDeclaration(node)) {
+          //   return context.factory.updateGetAccessorDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.name,
+          //     node.parameters,
+          //     node.type,
+          //     node.body,
+          //   );
+          // } else if (ts.isSetAccessorDeclaration(node)) {
+          //   return context.factory.updateSetAccessorDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.name,
+          //     node.parameters,
+          //     node.body,
+          //   );
+          // } else if (ts.isClassExpression(node)) {
+          //   return context.factory.updateClassExpression(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.name,
+          //     node.typeParameters,
+          //     node.heritageClauses,
+          //     node.members,
+          //   );
+          // } else if (ts.isClassDeclaration(node)) {
+          //   return context.factory.updateClassDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.name,
+          //     node.typeParameters,
+          //     node.heritageClauses,
+          //     node.members,
+          //   );
+          // } else if (ts.isFunctionDeclaration(node)) {
+          //   return context.factory.updateFunctionDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.asteriskToken | undefined,
+          //     node.name | undefined,
+          //     node.typeParameters | undefined,
+          //     node.parameters,
+          //     node.type | undefined,
+          //     node.body | undefined,
+          //   );
+          // } else if (ts.isVariableDeclaration(node)) {
+          //   return context.factory.updateVariableDeclaration(
+          //     node,
+          //     node.name,
+          //     node.exclamationToken | undefined,
+          //     node.type | undefined,
+          //     node.initializer | undefined,
+          //   );
+          // } else if (ts.isVariableStatement(node)) {
+          //   return context.factory.updateVariableStatement(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.declarationList,
+          //   );
+          // } else if (ts.isConstructorDeclaration(node)) {
+          //   return context.factory.updateConstructorDeclaration(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.parameters,
+          //     node.body | undefined,
+          //   );
+          // } else if (ts.isConstructorTypeNode(node)) {
+          //   return context.factory.updateConstructorTypeNode(
+          //     node,
+          //     selectDecorator(node.modifiers),
+          //     node.typeParameters | undefined,
+          //     node.parameters,
+          //     node.type,
+          //   );
+          // } else {
+          //   return node;
+          // }
         }
         function selectDecorator(modifierArray) {
           if (modifierArray == undefined) return undefined;
@@ -239,6 +241,7 @@ function parse(code, file, options) {
   const DecoratorPos = getDecoratorPosition(code, file);
   timeTest(code, DecoratorPos);
   return tsParse.parse(replaceTextWithSplit(code, DecoratorPos), options);
+  //return tsParse.parse(code, options);
 }
 
 // Overriding parse in tsParse.

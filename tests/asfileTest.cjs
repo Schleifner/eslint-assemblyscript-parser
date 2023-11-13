@@ -47,6 +47,7 @@ suite("asparse", () => {
         return;
       }
       testAllFiles(files);
+      //chaiTest("exports-lazy.ts")
     });
   });
 });
